@@ -87,8 +87,6 @@ $tree = TreeBuilder::fromGit('/path/to/repo', [
 ]);
 ```
 
-For more examples, see the [examples](_dev/examples/) directory and [usage guide](_dev/docs/GUIDE.md).
-
 ## Usage
 
 ### Building Trees
