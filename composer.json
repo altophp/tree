@@ -1,0 +1,69 @@
+{
+    "name": "alto/tree",
+    "description": "A modern PHP library for building, parsing, traversing, and printing tree structures representing file and directory hierarchies",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "tree",
+        "directory-tree",
+        "file-tree",
+        "hierarchical-data",
+        "tree-structure",
+        "tree-parser",
+        "tree-printer",
+        "tree-traversal"
+    ],
+    "authors": [
+        {
+            "name": "Simon André",
+            "email": "smn.andre@gmail.com"
+        }
+    ],
+    "homepage": "https://github.com/phpalto/tree",
+    "support": {
+        "issues": "https://github.com/phpalto/tree/issues",
+        "docs": "https://github.com/phpalto/tree#readme"
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/smnandre"
+        }
+    ],
+    "require": {
+        "php": "^8.2"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^12.1"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Alto\\Tree\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Alto\\Tree\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@phpstan",
+            "@test"
+        ],
+        "cs-check": "php-cs-fixer fix --dry-run --diff",
+        "cs-fix": "php-cs-fixer fix",
+        "phpstan": "phpstan analyse --level=10",
+        "test": "phpunit"
+    }
+}
