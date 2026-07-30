@@ -4,12 +4,12 @@ A modern PHP library for building, parsing, traversing, and printing tree struct
 
 ---
 
-&nbsp; [![PHP Version](https://img.shields.io/badge/PHP-8.2+-ffefdf?logoColor=white&labelColor=000)](https://github.com/PhpAlto/tree)
-&nbsp; [![CI](https://img.shields.io/github/actions/workflow/status/PhpAlto/tree/CI.yml?branch=main&label=Tests&logoColor=white&logoSize=auto&labelColor=000&color=ffefdf)](https://github.com/PhpAlto/tree/actions)
+&nbsp; [![PHP Version](https://img.shields.io/badge/PHP-8.2+-ffefdf?logoColor=white&labelColor=000)](https://github.com/altophp/tree)
+&nbsp; [![CI](https://img.shields.io/github/actions/workflow/status/altophp/tree/CI.yml?branch=main&label=Tests&logoColor=white&logoSize=auto&labelColor=000&color=ffefdf)](https://github.com/altophp/tree/actions)
 &nbsp; [![Packagist Version](https://img.shields.io/packagist/v/alto/tree?label=Stable&logoColor=white&logoSize=auto&labelColor=000&color=ffefdf)](https://packagist.org/packages/alto/tree)
-&nbsp; [![PHP Version](https://img.shields.io/badge/PHPUnit-100%25-ffefdf?logoColor=white&labelColor=000)](https://github.com/PhpAlto/tree)
-&nbsp; [![PHP Version](https://img.shields.io/badge/PHPStan-LVL%2010-ffefdf?logoColor=white&labelColor=000)](https://github.com/PhpAlto/tree)
-&nbsp; [![License](https://img.shields.io/github/license/PhpAlto/tree?label=License&logoColor=white&logoSize=auto&labelColor=000&color=ffefdf)](./LICENSE)
+&nbsp; [![PHP Version](https://img.shields.io/badge/PHPUnit-100%25-ffefdf?logoColor=white&labelColor=000)](https://github.com/altophp/tree)
+&nbsp; [![PHP Version](https://img.shields.io/badge/PHPStan-LVL%2010-ffefdf?logoColor=white&labelColor=000)](https://github.com/altophp/tree)
+&nbsp; [![License](https://img.shields.io/github/license/altophp/tree?label=License&logoColor=white&logoSize=auto&labelColor=000&color=ffefdf)](./LICENSE)
 
 
 ## Why Alto Tree?
