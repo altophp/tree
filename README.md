@@ -1,519 +1,152 @@
-# Alto \ Tree
+# ALTO Tree
 
-A modern PHP library for building, parsing, traversing, and printing tree structures representing file and directory hierarchies.
+Build, parse, traverse, print, edit, and compare filesystem trees in PHP.
 
----
+&nbsp; ![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-00B7FF?logoColor=00B7FF&labelColor=050608)
+&nbsp; ![CI](https://img.shields.io/github/actions/workflow/status/altophp/tree/CI.yml?branch=main&label=Tests&labelColor=050608&color=00B7FF)
+&nbsp; [![Packagist](https://img.shields.io/packagist/v/alto/tree?label=Packagist&labelColor=050608&color=00B7FF)](https://packagist.org/packages/alto/tree)
+&nbsp; ![License](https://img.shields.io/github/license/altophp/tree?label=License&labelColor=050608&color=00B7FF)
+&nbsp; [![GitHub Sponsors](https://img.shields.io/github/sponsors/smnandre?logo=githubsponsors&logoColor=00B7FF&label=%20Sponsor&labelColor=050608&color=00B7FF)](https://github.com/sponsors/smnandre)
 
-&nbsp; [![PHP Version](https://img.shields.io/badge/PHP-8.2+-ffefdf?logoColor=white&labelColor=000)](https://github.com/altophp/tree)
-&nbsp; [![CI](https://img.shields.io/github/actions/workflow/status/altophp/tree/CI.yml?branch=main&label=Tests&logoColor=white&logoSize=auto&labelColor=000&color=ffefdf)](https://github.com/altophp/tree/actions)
-&nbsp; [![Packagist Version](https://img.shields.io/packagist/v/alto/tree?label=Stable&logoColor=white&logoSize=auto&labelColor=000&color=ffefdf)](https://packagist.org/packages/alto/tree)
-&nbsp; [![PHP Version](https://img.shields.io/badge/PHPUnit-100%25-ffefdf?logoColor=white&labelColor=000)](https://github.com/altophp/tree)
-&nbsp; [![PHP Version](https://img.shields.io/badge/PHPStan-LVL%2010-ffefdf?logoColor=white&labelColor=000)](https://github.com/altophp/tree)
-&nbsp; [![License](https://img.shields.io/github/license/altophp/tree?label=License&logoColor=white&logoSize=auto&labelColor=000&color=ffefdf)](./LICENSE)
+ALTO Tree turns paths, directories, Git repositories, and textual tree diagrams into one typed
+model. The same tree can then be filtered, rendered, traversed, split, merged, or compared without
+coupling the operation to its original source.
 
+```php
+use Alto\Tree\Printer\TreePrinter;
+use Alto\Tree\TreeBuilder;
 
-## Why Alto Tree?
+$tree = TreeBuilder::fromPaths([
+    'project/src/App.php',
+    'project/tests/AppTest.php',
+], 'project');
 
-Alto Tree makes it easy to work with hierarchical file structures in PHP. Whether you need to:
+echo (new TreePrinter())->print($tree);
+// ├── src
+// │   └── App.php
+// └── tests
+//     └── AppTest.php
+```
 
-- Visualize directory structures in your CLI tools
-- Parse output from the `tree` command
-- Analyze project organization
-- Generate documentation with file trees
-- Compare or merge directory structures
-
-Alto Tree provides a clean, type-safe API with comprehensive documentation and examples.
-
-## Features
-
-- **Build Trees**: Create tree structures from arrays of file/directory paths
-- **Parse Trees**: Parse string representations of trees in multiple formats (ASCII art, bullets, indented)
-- **Print Trees**: Generate beautiful ASCII art representations of tree structures
-- **Traverse Trees**: Use the visitor pattern to traverse and analyze tree structures
-- **Manipulate Trees**: Split, merge, and append operations on tree nodes
-- **Compare Trees**: Diff two trees to identify added, removed, and unchanged nodes
-- **Type-Safe**: Fully typed with PHP 8.2+ features and strict types
-- **Well-Tested**: Comprehensive test coverage with PHPUnit
-- **Modern**: PSR-12 compliant, uses modern PHP features
-
-## Requirements
-
-- PHP 8.2 or higher
+The package has no PHP package runtime dependencies. It provides dedicated providers, visitors,
+printers, and diff objects while keeping the core tree model small and fully typed.
 
 ## Installation
 
-Install via Composer:
+Install ALTO Tree with Composer:
 
 ```bash
 composer require alto/tree
 ```
 
+ALTO Tree requires PHP 8.2 or later and the Mbstring extension. Mbstring is available in most PHP
+distributions but must be enabled.
+
 ## Quick Start
 
-### Basic Example
+Build a tree from paths and inspect its nodes:
 
 ```php
 use Alto\Tree\TreeBuilder;
-use Alto\Tree\Printer\TreePrinter;
 
-// Build a tree from paths
-$paths = ['src/Controller/HomeController.php', 'src/Entity/User.php'];
-$tree = TreeBuilder::fromPaths($paths, 'my-app');
+$tree = TreeBuilder::fromPaths([
+    'project/src/Controller/HomeController.php',
+    'project/src/Entity/User.php',
+], 'project');
 
-// Print the tree
-$printer = new TreePrinter();
-echo $printer->print($tree);
+echo $tree->children['src']->children['Entity']->children['User.php']->path;
 ```
 
-### Build from Filesystem
+The root is a `Tree`; every descendant is a `TreeNode` with its path, name, directory flag,
+children, and optional filesystem metadata.
+
+## Building Trees
+
+Create trees from known paths, a directory, a Git repository, or a custom provider:
 
 ```php
-// Scan actual filesystem
-$tree = TreeBuilder::fromFilesystem('/path/to/project', [
+$filesystem = TreeBuilder::fromFilesystem(__DIR__, [
     'max_depth' => 3,
-    'exclude' => ['vendor', 'node_modules'],
-]);
-```
-
-### Build from Git Repository
-
-```php
-// Get git-tracked files
-$tree = TreeBuilder::fromGit('/path/to/repo');
-
-// Or get only modified files
-$tree = TreeBuilder::fromGit('/path/to/repo', [
-    'modified_only' => true,
-]);
-```
-
-## Usage
-
-### Building Trees
-
-Alto Tree uses the **Provider Pattern** to support multiple data sources.
-
-#### From Array of Paths
-
-```php
-use Alto\Tree\TreeBuilder;
-
-$paths = [
-    'src/Controller/HomeController.php',
-    'src/Controller/UserController.php',
-    'src/Entity/User.php',
-];
-
-$tree = TreeBuilder::fromPaths($paths, 'src');
-```
-
-#### From Filesystem
-
-Scan actual files and directories:
-
-```php
-$tree = TreeBuilder::fromFilesystem('/path/to/project', [
-    'max_depth' => 3,                    // Limit depth (default: unlimited)
-    'exclude' => ['vendor', '.git'],     // Exclude patterns
-    'include_hidden' => false,           // Include hidden files (default: false)
-    'with_metadata' => true,             // Include file metadata (default: false)
-]);
-```
-
-#### From Git Repository
-
-Build tree from git-tracked files:
-
-```php
-// All tracked files
-$tree = TreeBuilder::fromGit('/path/to/repo');
-
-// Only modified files
-$tree = TreeBuilder::fromGit('/path/to/repo', [
-    'modified_only' => true,
+    'exclude' => ['vendor', '.git'],
 ]);
 
-// Diff between branches
-$tree = TreeBuilder::fromGit('/path/to/repo', [
-    'diff' => 'main..feature',
-]);
-
-// Files from specific commit
-$tree = TreeBuilder::fromGit('/path/to/repo', [
-    'commit' => 'abc123',
-]);
+$tracked = TreeBuilder::fromGit(__DIR__);
+$modified = TreeBuilder::fromGit(__DIR__, ['modified_only' => true]);
 ```
 
-#### Custom Providers
+Read [Building trees](docs/building.md) for every provider, filesystem metadata, Git modes, and
+the custom provider contract.
 
-Create your own provider for any data source:
+## Parsing and Printing
 
-```php
-use Alto\Tree\Provider\TreeSourceProviderInterface;
-use Alto\Tree\Provider\NodeData;
-
-class ComposerProvider implements TreeSourceProviderInterface
-{
-    public function getRootPath(): string { return 'dependencies'; }
-
-    public function getNodes(): array
-    {
-        // Parse composer.lock, return NodeData objects
-        return [
-            new NodeData('vendor/package', true),
-            new NodeData('vendor/package/src/File.php', false),
-        ];
-    }
-}
-
-$tree = TreeBuilder::from(new ComposerProvider());
-```
-
-### Parsing a Tree from String
-
-Parse a string representation of a tree back into a `Tree` object:
+`TreeParser` reads box-drawing trees, bullet lists, and plain indentation. `TreePrinter` renders
+the model with depth, pattern, visibility, sorting, metadata, and terminal-color options.
 
 ```php
 use Alto\Tree\Parser\TreeParser;
+use Alto\Tree\Printer\TreePrinter;
 
-$input = <<<EOT
-src
-├── Controller
-│   ├── HomeController.php
-│   └── UserController.php
-└── Entity
-    └── User.php
-EOT;
-
-$parser = new TreeParser();
-$tree = $parser->parse($input);
+$tree = (new TreeParser())->parse("project\n  src\n    App.php");
+$output = (new TreePrinter())->print($tree, ['pattern' => '*.php']);
 ```
 
-The parser supports multiple formats:
+See [Parsing trees](docs/parsing.md) and [Printing trees](docs/printing.md).
 
-#### ASCII Tree Format (with box-drawing characters)
-```
-src
-├── Controller
-│   └── HomeController.php
-└── Entity
-    └── User.php
-```
+## Traversing and Editing
 
-#### Bullet List Format
-```
-src
-* Controller
-  * HomeController.php
-* Entity
-  * User.php
-```
-
-#### Dash List Format
-```
-src
-- Controller
-  - HomeController.php
-- Entity
-  - User.php
-```
-
-#### Simple Indentation (2 or 4 spaces)
-```
-src
-  Controller
-    HomeController.php
-  Entity
-    User.php
-```
-
-### Traversing a Tree
-
-Use the visitor pattern to traverse and analyze tree structures:
+Use visitors to collect or analyze nodes. Tree edits return cloned structures, leaving their
+inputs unchanged.
 
 ```php
-use Alto\Tree\Traverser\TreeTraverser;
-use Alto\Tree\Visitor\CollectorVisitor;
-
-$traverser = new TreeTraverser();
-$collector = new CollectorVisitor();
-
-$traverser->addVisitor($collector);
-$traverser->traverse($tree);
-
-echo $collector->getSummary();
-// Output: Found 4 files and 3 directories
-
-$files = $collector->getFiles();
-$directories = $collector->getDirectories();
+$subtree = $tree->split('project/src');
+$merged = $tree->merge($anotherTree);
+$paths = Alto\Tree\Traverser\TreeFlattener::flatten($merged);
 ```
 
-### Flattening a Tree
+See [Traversing trees](docs/traversal.md) and [Editing trees](docs/editing.md).
 
-Convert a tree structure into a flat array of paths:
+## Comparing Trees
 
-```php
-use Alto\Tree\TreeFlattener;
-
-$paths = TreeFlattener::flatten($tree);
-// Returns: ['src/Controller', 'src/Controller/HomeController.php', ...]
-
-// Rebuild a tree from paths
-$newTree = TreeFlattener::buildTree($paths);
-```
-
-### Splitting a Tree
-
-Extract a subtree from a specific path:
-
-```php
-$tree = TreeBuilder::fromPaths([
-    'src/Controller/HomeController.php',
-    'src/Entity/User.php'
-]);
-
-// Extract just the Controller subtree
-$controllerTree = $tree->split('src/Controller');
-```
-
-### Merging Trees
-
-Combine two trees into one:
-
-```php
-$tree1 = TreeBuilder::fromPaths(['src/Controller/HomeController.php']);
-$tree2 = TreeBuilder::fromPaths(['src/Entity/User.php']);
-
-$merged = $tree1->merge($tree2);
-// Now contains both Controller and Entity directories
-```
-
-### Appending Nodes
-
-Add a node as a child of another node:
-
-```php
-$mainTree = TreeBuilder::fromPaths(['src/Controller/HomeController.php']);
-$extraNode = TreeBuilder::fromPaths(['config/app.php']);
-
-$result = $mainTree->append($extraNode, 'config');
-// Adds the config tree as a child of mainTree
-```
-
-### Comparing Trees (Diff)
-
-Compare two trees to identify changes:
+Classify paths as added, removed, or unchanged, then inspect or print the result:
 
 ```php
 use Alto\Tree\Diff\TreeDiff;
-use Alto\Tree\Diff\DiffPrinter;
 
-$oldTree = TreeBuilder::fromPaths(['project/src/App.php']);
-$newTree = TreeBuilder::fromPaths([
-    'project/src/App.php',
-    'project/src/Router.php',  // Added
-]);
+$diff = TreeDiff::compare($before, $after);
 
-$diff = TreeDiff::compare($oldTree, $newTree);
-
-echo $diff->getSummary();  // "+1"
-echo $diff->getDetailedSummary();  // "Added: 1 file"
-
-// Print visual diff
-$printer = new DiffPrinter();
-echo $printer->print($diff);
-
-// Get added/removed nodes
-$added = $diff->getAdded();
-$removed = $diff->getRemoved();
-$unchanged = $diff->getUnchanged();
+echo $diff->getSummary();
 ```
 
-## API Reference
-
-### Core Classes
-
-#### `Tree`
-**Final class** representing the root of a tree structure. Extends `TreeNode`.
-
-#### `TreeNode`
-Represents a node (file or directory) in the tree.
-
-**Properties:**
-- `string $path` - Full path to the node
-- `string $name` - Base name (file/directory name)
-- `bool $isDir` - Whether this is a directory
-- `array<string, TreeNode> $children` - Child nodes
-- `?array $metadata` - Optional metadata (size, mtime, permissions, etc.)
-
-**Metadata:**
-When using `with_metadata: true` option with FileSystemProvider, the metadata array contains:
-- `size` (int) - File size in bytes
-- `mtime` (int) - Last modification timestamp
-- `permissions` (string) - Unix permissions (e.g., "0755")
-- `is_readable` (bool) - Whether file is readable
-- `is_writable` (bool) - Whether file is writable
-
-**Methods:**
-- `addChild(TreeNode $child): void` - Add a child node
-- `split(string $path): ?TreeNode` - Extract a subtree
-- `merge(TreeNode $other): TreeNode` - Merge with another node
-- `append(TreeNode $child, ?string $childName = null): TreeNode` - Append a child node
-
-#### `TreeBuilder`
-**Final class** factory for building trees from paths.
-
-**Methods:**
-- `static fromPaths(array $paths, string $rootPath = 'src'): Tree` - Build a tree from array of paths
-
-### Parsing
-
-#### `TreeParser`
-**Final class** that parses string representations into tree structures.
-
-**Methods:**
-- `parse(string $tree): Tree` - Parse a tree string into a Tree object
-
-### Printing
-
-#### `TreePrinter`
-**Final class** that generates ASCII art representation of trees with extensive formatting and filtering options.
-
-**Methods:**
-- `print(TreeNode $tree, array $options = []): string` - Generate tree visualization
-
-**Printer Options:**
-
-*Filtering:*
-- `show_hidden: bool` - Show/hide hidden files (default: true)
-- `files_only: bool` - Show only files, exclude directories (default: false)
-- `dirs_only: bool` - Show only directories, exclude files (default: false)
-- `pattern: string` - Filter by shell-style pattern compatible with PHP `fnmatch` (e.g., '*.php')
-- `max_depth: int` - Limit tree depth (default: unlimited)
-
-*Display:*
-- `show_size: bool` - Show file sizes in human-readable format (default: false)
-- `show_date: bool` - Show modification dates (default: false)
-- `show_permissions: bool` - Show Unix permissions (default: false)
-
-*Sorting:*
-- `sort_by: string` - Sort by: 'name', 'size', 'date', 'type' (default: null = preserve order)
-- `sort_order: string` - Sort order: 'asc', 'desc' (default: 'asc')
-
-*Visual:*
-- `colors: bool` - Use ANSI colors for terminal output (default: false)
-
-**Example:**
-```php
-$printer = new TreePrinter();
-
-// Simple tree
-echo $printer->print($tree);
-
-// With icons and colors
-echo $printer->print($tree, [
-    'icons' => true,
-    'colors' => true,
-]);
-
-// Show only PHP files with sizes, sorted by size
-echo $printer->print($tree, [
-    'pattern' => '*.php',
-    'show_size' => true,
-    'sort_by' => 'size',
-    'sort_order' => 'desc',
-]);
-
-// Directories only with depth limit
-echo $printer->print($tree, [
-    'dirs_only' => true,
-    'max_depth' => 2,
-]);
-```
-
-### Traversal
-
-#### `TreeTraverser`
-**Final class** that traverses tree structures using the visitor pattern.
-
-**Methods:**
-- `addVisitor(VisitorInterface $visitor): self` - Add a visitor
-- `traverse(TreeNode $node): void` - Traverse the tree
-
-#### `CollectorVisitor`
-**Final class** that collects files and directories during traversal.
-
-**Methods:**
-- `getFiles(): array` - Get collected file paths
-- `getDirectories(): array` - Get collected directory paths
-- `getTotalFiles(): int` - Get file count
-- `getTotalDirectories(): int` - Get directory count
-- `getSummary(): string` - Get formatted summary
-
-#### `TreeFlattener`
-**Final class** utility for flattening and rebuilding trees.
-
-**Methods:**
-- `static flatten(TreeNode $tree): array` - Flatten tree to paths array
-- `static buildTree(array $paths, ?string $rootPath = null): Tree` - Build tree from paths
-
-### Comparison
-
-#### `TreeDiff`
-**Final class** that compares two trees and identifies differences.
-
-**Methods:**
-- `static compare(TreeNode $oldTree, TreeNode $newTree): DiffResult` - Compare two trees
-
-#### `DiffResult`
-**Readonly class** containing the results of a tree comparison.
-
-**Methods:**
-- `getAdded(): array` - Get nodes added in new tree
-- `getRemoved(): array` - Get nodes removed from old tree
-- `getUnchanged(): array` - Get nodes present in both trees
-- `hasChanges(): bool` - Check if there are any changes
-- `getSummary(): string` - Get compact summary (e.g., "+5 -3")
-- `getDetailedSummary(): string` - Get detailed summary with counts
-
-#### `DiffPrinter`
-**Final class** that prints visual representations of tree differences.
-
-**Methods:**
-- `print(DiffResult $diff, array $options = []): string` - Print diff as tree with +/- markers
-- `printSummary(DiffResult $diff): string` - Print detailed summary
-- `printUnified(DiffResult $diff, string $oldLabel, string $newLabel): string` - Print unified diff format
-
-## Testing
-
-Run the test suite:
-
-```bash
-composer test
-```
-
-Run static analysis:
-
-```bash
-composer phpstan
-```
-
-Run code style fixer:
-
-```bash
-composer cs-fix
-```
+Read [Comparing trees](docs/comparing.md) for result accessors and output formats. The
+[complete guide](docs/index.md) links every topic.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions of all kinds are welcome. Visit the
+[project on GitHub](https://github.com/altophp/tree) to
+[report a bug](https://github.com/altophp/tree/issues/new),
+[suggest a feature](https://github.com/altophp/tree/issues/new), or
+[open a pull request](https://github.com/altophp/tree/pulls).
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Before submitting code, run:
+
+```bash
+# Runs PHP CS Fixer, PHPStan, and PHPUnit
+composer qa
+```
+
+Changes to public behavior should include tests and documentation.
+
+## Support
+
+ALTO Tree is open source. You can support its continued development through
+[GitHub Sponsors](https://github.com/sponsors/smnandre).
+
+Sharing this package with others or
+[starring it on GitHub](https://github.com/altophp/tree) is also much
+appreciated.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+ALTO Tree is released by [ALTO PHP](https://altophp.com) under the
+[MIT License](LICENSE).

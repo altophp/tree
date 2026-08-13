@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the ALTO library.
  *
- * © 2026–present Simon André
+ * © 2026-present Simon André
  *
  * For full copyright and license information, please see
  * the LICENSE file distributed with this source code.
@@ -20,9 +20,13 @@ use Alto\Tree\TreeNode;
  */
 final class CollectorVisitor implements VisitorInterface
 {
-    /** @var array<string> */ private array $files = [];
+    /**
+     * @var array<string>
+     */ private array $files = [];
 
-    /** @var array<string> */ private array $directories = [];
+    /**
+     * @var array<string>
+     */ private array $directories = [];
 
     private int $totalFiles = 0;
 
@@ -47,13 +51,17 @@ final class CollectorVisitor implements VisitorInterface
         // Nothing specific to do when leaving a directory
     }
 
-    /** @return array<string> */
+    /**
+     * @return array<string>
+     */
     public function getFiles(): array
     {
         return $this->files;
     }
 
-    /** @return array<string> */
+    /**
+     * @return array<string>
+     */
     public function getDirectories(): array
     {
         return $this->directories;
@@ -74,7 +82,7 @@ final class CollectorVisitor implements VisitorInterface
         return sprintf(
             'Found %d files and %d directories',
             $this->totalFiles,
-            $this->totalDirectories
+            $this->totalDirectories,
         );
     }
 }

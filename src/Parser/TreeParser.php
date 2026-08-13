@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the ALTO library.
  *
- * © 2026–present Simon André
+ * © 2026-present Simon André
  *
  * For full copyright and license information, please see
  * the LICENSE file distributed with this source code.
@@ -58,7 +58,7 @@ final class TreeParser implements TreeParserInterface
 
             // Build full path by appending to parent's path
             $parentNode = $this->findParentNode($pathStack, $indentLevel);
-            $fullPath = $parentNode->path.'/'.$name;
+            $fullPath = $parentNode->path . '/' . $name;
 
             // Create the node
             $node = new TreeNode($fullPath, !$isFile);

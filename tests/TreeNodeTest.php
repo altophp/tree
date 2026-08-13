@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the ALTO library.
  *
- * © 2026–present Simon André
+ * © 2026-present Simon André
  *
  * For full copyright and license information, please see
  * the LICENSE file distributed with this source code.
@@ -24,7 +24,7 @@ class TreeNodeTest extends TestCase
     {
         $path = '/path/to/dir';
         $node = new TreeNode($path, true);
-        $expectedString = $path."\n".str_repeat('=', strlen($path))."\n";
+        $expectedString = $path . "\n" . str_repeat('=', strlen($path)) . "\n";
 
         $this->assertSame($expectedString, (string) $node);
     }
@@ -33,7 +33,7 @@ class TreeNodeTest extends TestCase
     {
         $path = '/path/to/file.ext';
         $node = new TreeNode($path, false);
-        $expectedString = $path."\n";
+        $expectedString = $path . "\n";
 
         $this->assertSame($expectedString, (string) $node);
     }
@@ -47,13 +47,13 @@ class TreeNodeTest extends TestCase
         $parentDir->addChild($childFile);
         $parentDir->addChild($childDir);
 
-        $expectedDirString = $parentDir->path."\n".str_repeat('=', strlen($parentDir->path))."\n";
+        $expectedDirString = $parentDir->path . "\n" . str_repeat('=', strlen($parentDir->path)) . "\n";
         $this->assertSame($expectedDirString, (string) $parentDir);
 
         $parentFile = new TreeNode('/path/to/parent.txt', false);
         $parentFile->addChild($childFile);
 
-        $expectedFileString = $parentFile->path."\n";
+        $expectedFileString = $parentFile->path . "\n";
         $this->assertSame($expectedFileString, (string) $parentFile);
     }
 

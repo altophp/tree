@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the ALTO library.
  *
- * © 2026–present Simon André
+ * © 2026-present Simon André
  *
  * For full copyright and license information, please see
  * the LICENSE file distributed with this source code.
@@ -66,8 +66,8 @@ final class DiffPrinter
     public function printSummary(DiffResult $diff): string
     {
         $output = "Diff Summary\n";
-        $output .= str_repeat('=', 40).PHP_EOL;
-        $output .= $diff->getDetailedSummary().PHP_EOL;
+        $output .= str_repeat('=', 40) . PHP_EOL;
+        $output .= $diff->getDetailedSummary() . PHP_EOL;
 
         if ($diff->getAddedCount() > 0) {
             $output .= "\nAdded:\n";
@@ -95,7 +95,7 @@ final class DiffPrinter
     {
         $output = "--- $oldLabel\n";
         $output .= "+++ $newLabel\n";
-        $output .= $diff->getSummary()."\n\n";
+        $output .= $diff->getSummary() . "\n\n";
 
         foreach ($diff->getRemoved() as $node) {
             $output .= "- {$node->path}\n";

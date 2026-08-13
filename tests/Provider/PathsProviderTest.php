@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the ALTO library.
  *
- * © 2026–present Simon André
+ * © 2026-present Simon André
  *
  * For full copyright and license information, please see
  * the LICENSE file distributed with this source code.
@@ -68,7 +68,7 @@ class PathsProviderTest extends TestCase
         // Should have: src, App.php, Router.php (src only once)
         $this->assertCount(3, $nodes);
 
-        $paths = array_map(fn ($n) => $n->path, $nodes);
+        $paths = array_map(fn($n) => $n->path, $nodes);
         $this->assertEquals(['src', 'src/App.php', 'src/Router.php'], $paths);
     }
 
