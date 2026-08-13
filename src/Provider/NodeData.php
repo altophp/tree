@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the ALTO library.
  *
- * © 2026–present Simon André
+ * © 2026-present Simon André
  *
  * For full copyright and license information, please see
  * the LICENSE file distributed with this source code.
@@ -19,6 +19,8 @@ namespace Alto\Tree\Provider;
  * This immutable object carries normalized node data from providers to TreeBuilder.
  * It includes the essential information needed to construct a TreeNode: path, type,
  * and optional metadata.
+ *
+ * @author Simon André <smn.andre@gmail.com>
  */
 readonly class NodeData
 {
@@ -31,8 +33,7 @@ readonly class NodeData
         public string $path,
         public bool $isDir,
         public ?array $metadata = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Create a NodeData for a directory.

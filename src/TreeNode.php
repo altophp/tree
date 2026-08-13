@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the ALTO library.
  *
- * © 2026–present Simon André
+ * © 2026-present Simon André
  *
  * For full copyright and license information, please see
  * the LICENSE file distributed with this source code.
@@ -85,9 +85,9 @@ class TreeNode implements \Stringable
     {
         return
         $this->isDir
-            ? $this->path."\n"
-            .str_repeat('=', strlen($this->path))."\n"
-            : $this->path."\n"
+            ? $this->path . "\n"
+            . str_repeat('=', strlen($this->path)) . "\n"
+            : $this->path . "\n"
         ;
     }
 
@@ -107,7 +107,7 @@ class TreeNode implements \Stringable
             return $this->cloneNode();
         }
 
-        if (str_starts_with($path, $this->path.'/')) {
+        if (str_starts_with($path, $this->path . '/')) {
             $path = substr($path, strlen($this->path) + 1);
         }
 
@@ -168,7 +168,7 @@ class TreeNode implements \Stringable
 
         $newChild = $child->cloneNode();
         if (null !== $childName) {
-            $newChild->path = $result->path.'/'.$childName;
+            $newChild->path = $result->path . '/' . $childName;
             $newChild->name = $childName;
         }
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the ALTO library.
  *
- * © 2026–present Simon André
+ * © 2026-present Simon André
  *
  * For full copyright and license information, please see
  * the LICENSE file distributed with this source code.
@@ -57,11 +57,11 @@ final class TreePrinter implements TreePrinterInterface
         foreach ($children as $i => $child) {
             $isLast = $i === $count - 1;
             $branch = $isLast ? '└── ' : '├── ';
-            $childIndent = $indent.($isLast ? '    ' : '│   ');
+            $childIndent = $indent . ($isLast ? '    ' : '│   ');
 
             $nodeLine = $this->formatNode($child);
 
-            $result .= $indent.$branch.$nodeLine.PHP_EOL;
+            $result .= $indent . $branch . $nodeLine . PHP_EOL;
 
             if ($child->isDir && !empty($child->children)) {
                 ++$this->currentDepth;
@@ -120,7 +120,7 @@ final class TreePrinter implements TreePrinterInterface
         if ($this->options->showSize && isset($node->metadata['size'])) {
             /** @var int $size */
             $size = $node->metadata['size'];
-            $parts[] = '('.$this->formatSize($size).')';
+            $parts[] = '(' . $this->formatSize($size) . ')';
         }
 
         if ($this->options->showDate && isset($node->metadata['mtime'])) {
@@ -132,7 +132,7 @@ final class TreePrinter implements TreePrinterInterface
         if ($this->options->showPermissions && isset($node->metadata['permissions'])) {
             /** @var string $permissions */
             $permissions = $node->metadata['permissions'];
-            $parts[] = '['.$permissions.']';
+            $parts[] = '[' . $permissions . ']';
         }
 
         return implode(' ', $parts);
@@ -144,7 +144,7 @@ final class TreePrinter implements TreePrinterInterface
     private function colorize(string $text, bool $isDir): string
     {
         if ($isDir) {
-            return "\033[34m".$text."\033[0m"; // Blue for directories
+            return "\033[34m" . $text . "\033[0m"; // Blue for directories
         }
 
         return $text;
@@ -164,7 +164,7 @@ final class TreePrinter implements TreePrinterInterface
             ++$index;
         }
 
-        return round($size, 2).' '.$units[$index];
+        return round($size, 2) . ' ' . $units[$index];
     }
 
     /**

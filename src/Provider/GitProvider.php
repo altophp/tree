@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the ALTO library.
  *
- * © 2026–present Simon André
+ * © 2026-present Simon André
  *
  * For full copyright and license information, please see
  * the LICENSE file distributed with this source code.
@@ -54,7 +54,7 @@ final class GitProvider implements TreeSourceProviderInterface
             throw new \InvalidArgumentException("Repository path does not exist: $repositoryPath");
         }
 
-        if (!is_dir($repositoryPath.'/.git')) {
+        if (!is_dir($repositoryPath . '/.git')) {
             throw new \InvalidArgumentException("Not a git repository: $repositoryPath");
         }
 
@@ -85,7 +85,7 @@ final class GitProvider implements TreeSourceProviderInterface
                 $isLast = $i === array_key_last($segments);
                 $isDir = !$isLast || !str_contains($segment, '.');
 
-                $fullPath = $rootPath.'/'.$accum;
+                $fullPath = $rootPath . '/' . $accum;
 
                 if (!isset($processedPaths[$fullPath])) {
                     $nodes[] = new NodeData($fullPath, $isDir);
@@ -112,10 +112,10 @@ final class GitProvider implements TreeSourceProviderInterface
         exec("cd {$this->repositoryPath} && $command 2>&1", $output, $returnCode);
 
         if (0 !== $returnCode) {
-            throw new \RuntimeException('Git command failed: '.implode("\n", $output));
+            throw new \RuntimeException('Git command failed: ' . implode("\n", $output));
         }
 
-        return array_filter($output, fn ($line) => !empty(trim($line)));
+        return array_filter($output, fn($line) => !empty(trim($line)));
     }
 
     /**

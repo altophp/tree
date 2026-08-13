@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the ALTO library.
  *
- * © 2026–present Simon André
+ * © 2026-present Simon André
  *
  * For full copyright and license information, please see
  * the LICENSE file distributed with this source code.
@@ -34,8 +34,7 @@ readonly class DiffResult
         private array $added = [],
         private array $removed = [],
         private array $unchanged = [],
-    ) {
-    }
+    ) {}
 
     /**
      * Get nodes that were added in the new tree.
@@ -113,11 +112,11 @@ readonly class DiffResult
         $parts = [];
 
         if ($this->getAddedCount() > 0) {
-            $parts[] = '+'.$this->getAddedCount();
+            $parts[] = '+' . $this->getAddedCount();
         }
 
         if ($this->getRemovedCount() > 0) {
-            $parts[] = '-'.$this->getRemovedCount();
+            $parts[] = '-' . $this->getRemovedCount();
         }
 
         return implode(' ', $parts);
@@ -128,10 +127,10 @@ readonly class DiffResult
      */
     public function getDetailedSummary(): string
     {
-        $addedFiles = count(array_filter($this->added, fn ($n) => !$n->isDir));
-        $addedDirs = count(array_filter($this->added, fn ($n) => $n->isDir));
-        $removedFiles = count(array_filter($this->removed, fn ($n) => !$n->isDir));
-        $removedDirs = count(array_filter($this->removed, fn ($n) => $n->isDir));
+        $addedFiles = count(array_filter($this->added, fn($n) => !$n->isDir));
+        $addedDirs = count(array_filter($this->added, fn($n) => $n->isDir));
+        $removedFiles = count(array_filter($this->removed, fn($n) => !$n->isDir));
+        $removedDirs = count(array_filter($this->removed, fn($n) => $n->isDir));
 
         if (!$this->hasChanges()) {
             return 'No changes';
@@ -142,23 +141,23 @@ readonly class DiffResult
         if ($addedFiles > 0 || $addedDirs > 0) {
             $added = [];
             if ($addedFiles > 0) {
-                $added[] = "$addedFiles ".(1 === $addedFiles ? 'file' : 'files');
+                $added[] = "$addedFiles " . (1 === $addedFiles ? 'file' : 'files');
             }
             if ($addedDirs > 0) {
-                $added[] = "$addedDirs ".(1 === $addedDirs ? 'directory' : 'directories');
+                $added[] = "$addedDirs " . (1 === $addedDirs ? 'directory' : 'directories');
             }
-            $parts[] = 'Added: '.implode(', ', $added);
+            $parts[] = 'Added: ' . implode(', ', $added);
         }
 
         if ($removedFiles > 0 || $removedDirs > 0) {
             $removed = [];
             if ($removedFiles > 0) {
-                $removed[] = "$removedFiles ".(1 === $removedFiles ? 'file' : 'files');
+                $removed[] = "$removedFiles " . (1 === $removedFiles ? 'file' : 'files');
             }
             if ($removedDirs > 0) {
-                $removed[] = "$removedDirs ".(1 === $removedDirs ? 'directory' : 'directories');
+                $removed[] = "$removedDirs " . (1 === $removedDirs ? 'directory' : 'directories');
             }
-            $parts[] = 'Removed: '.implode(', ', $removed);
+            $parts[] = 'Removed: ' . implode(', ', $removed);
         }
 
         return implode(' | ', $parts);
