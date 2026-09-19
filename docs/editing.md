@@ -1,4 +1,4 @@
-# Editing trees
+# Editing
 
 Tree operations return cloned structures and leave their inputs unchanged.
 

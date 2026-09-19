@@ -1,4 +1,4 @@
-# Comparing trees
+# Comparing
 
 `TreeDiff` compares paths in two trees and classifies them as added, removed,
 or unchanged.

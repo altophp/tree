@@ -1,4 +1,4 @@
-# Printing trees
+# Printing
 
 `TreePrinter::print()` returns box-drawing output for a `TreeNode`. The root
 name is omitted, leaving only its descendants.

@@ -1,4 +1,4 @@
-# Traversing trees
+# Traversal
 
 Use the built-in collector when you need file and directory paths or counts.
 

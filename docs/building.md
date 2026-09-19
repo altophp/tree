@@ -1,4 +1,4 @@
-# Building trees
+# Building
 
 `TreeBuilder` normalizes several sources into the same `Tree` and `TreeNode`
 model.
