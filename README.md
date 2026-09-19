@@ -60,6 +60,17 @@ echo $tree->children['src']->children['Entity']->children['User.php']->path;
 The root is a `Tree`; every descendant is a `TreeNode` with its path, name, directory flag,
 children, and optional filesystem metadata.
 
+## Documentation
+
+- [Installation](docs/installation.md)
+- [Getting started](docs/getting-started.md)
+- [Building](docs/building.md)
+- [Parsing](docs/parsing.md)
+- [Printing](docs/printing.md)
+- [Traversal](docs/traversal.md)
+- [Editing](docs/editing.md)
+- [Comparing](docs/comparing.md)
+
 ## Building Trees
 
 Create trees from known paths, a directory, a Git repository, or a custom provider:
@@ -74,7 +85,7 @@ $tracked = TreeBuilder::fromGit(__DIR__);
 $modified = TreeBuilder::fromGit(__DIR__, ['modified_only' => true]);
 ```
 
-Read [Building trees](docs/building.md) for every provider, filesystem metadata, Git modes, and
+Read [Building](docs/building.md) for every provider, filesystem metadata, Git modes, and
 the custom provider contract.
 
 ## Parsing and Printing
@@ -90,7 +101,7 @@ $tree = (new TreeParser())->parse("project\n  src\n    App.php");
 $output = (new TreePrinter())->print($tree, ['pattern' => '*.php']);
 ```
 
-See [Parsing trees](docs/parsing.md) and [Printing trees](docs/printing.md).
+See [Parsing](docs/parsing.md) and [Printing](docs/printing.md).
 
 ## Traversing and Editing
 
@@ -103,7 +114,7 @@ $merged = $tree->merge($anotherTree);
 $paths = Alto\Tree\Traverser\TreeFlattener::flatten($merged);
 ```
 
-See [Traversing trees](docs/traversal.md) and [Editing trees](docs/editing.md).
+See [Traversal](docs/traversal.md) and [Editing](docs/editing.md).
 
 ## Comparing Trees
 
@@ -117,7 +128,7 @@ $diff = TreeDiff::compare($before, $after);
 echo $diff->getSummary();
 ```
 
-Read [Comparing trees](docs/comparing.md) for result accessors and output formats. The
+Read [Comparing](docs/comparing.md) for result accessors and output formats. The
 [complete guide](docs/index.md) links every topic.
 
 ## Contributing

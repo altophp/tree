@@ -1,4 +1,4 @@
-# Parsing trees
+# Parsing
 
 `TreeParser` reads common textual tree formats and returns a `Tree`.
 
