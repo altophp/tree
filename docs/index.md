@@ -15,6 +15,8 @@ $tree = TreeBuilder::fromPaths([
 echo (new TreePrinter())->print($tree);
 ```
 
+## Documentation
+
 - [Installation](installation.md): install the package and verify the runtime.
 - [Getting started](getting-started.md): build and print a first tree.
 - [Building](building.md): create trees from paths, directories, Git, or custom providers.
