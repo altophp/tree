@@ -150,12 +150,13 @@ Changes to public behavior should include tests and documentation.
 
 ## Support
 
-ALTO Tree is open source. You can support its continued development through
+ALTO Tree is open source and independently maintained by
+[Simon André](https://smnandre.dev). If it is useful to your work, you can
+support its continued development through
 [GitHub Sponsors](https://github.com/sponsors/smnandre).
 
-Sharing this package with others or
-[starring it on GitHub](https://github.com/altophp/tree) is also much
-appreciated.
+Sharing the package or
+[starring it on GitHub](https://github.com/altophp/tree) also helps.
 
 ## License
 
